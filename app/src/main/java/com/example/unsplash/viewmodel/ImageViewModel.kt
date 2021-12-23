@@ -1,10 +1,8 @@
 package com.example.unsplash.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.unsplash.model.UnSplashResponse
 import com.example.unsplash.model.UnSplashResponseItem
 import com.example.unsplash.repository.ImageRepository
 import com.example.unsplash.util.Resource
@@ -14,9 +12,9 @@ import java.io.IOException
 
 class ImageViewModel(val imageRepository: ImageRepository) : ViewModel() {
 
-    val ImageList : MutableLiveData<Resource<UnSplashResponse>> = MutableLiveData()
-    val pageNumber : Int = 1
-    val imageResponse : UnSplashResponseItem? = null
+    val ImageList : MutableLiveData<Resource<List<UnSplashResponseItem>>> = MutableLiveData()
+    var pageNumber : Int = 1
+    var imageResponse : MutableList<UnSplashResponseItem>? = null
 
     init {
         getImageResponse()
@@ -31,19 +29,30 @@ class ImageViewModel(val imageRepository: ImageRepository) : ViewModel() {
     private suspend fun safeCallImageResponse(){
        ImageList.postValue(Resource.Loading())
        try{
-           val response = imageRepository.getphotos()
+           val response = imageRepository.getphotos(pageNumber)
            ImageList.postValue(handleImageResponse(response))
        } catch(t : Throwable){
-           ImageList.postValue(Resource.Error("Conversion Error"))
+           when(t){
+               is IOException -> ImageList.postValue(Resource.Error("Network Failure"))
+               else -> {ImageList.postValue(Resource.Error(t.message.toString()))}
+           }
        }
 
     }
 
-    fun handleImageResponse(response: Response<UnSplashResponse>) :
-            Resource<UnSplashResponse>{
+    fun handleImageResponse(response: Response<MutableList<UnSplashResponseItem>>) :
+            Resource<List<UnSplashResponseItem>>{
         if(response.isSuccessful){
             response.body()?.let {
-                return Resource.Success(it)
+                pageNumber++
+                if(imageResponse == null){
+                    imageResponse = it
+                } else {
+                    val oldArticles  = imageResponse
+                    val newArticles =it
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(imageResponse ?: it)
             }
         }
         return Resource.Error(response.message())

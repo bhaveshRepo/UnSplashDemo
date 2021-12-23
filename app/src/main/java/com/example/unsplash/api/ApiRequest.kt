@@ -1,8 +1,6 @@
 package com.example.unsplash.api
 
-import com.example.unsplash.model.UnSplashResponse
 import com.example.unsplash.model.UnSplashResponseItem
-import com.example.unsplash.model.Urls
 import com.example.unsplash.util.Constants
 import retrofit2.Response
 import retrofit2.http.GET
@@ -16,7 +14,7 @@ interface ApiRequest {
         page : Int = 1,
         @Query("client_id")
         client_id : String = Constants.access_key
-    ) : Response<UnSplashResponse>
+    ) : Response<MutableList<UnSplashResponseItem>>
 
 
 }

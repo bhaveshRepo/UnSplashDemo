@@ -3,6 +3,7 @@ package com.example.unsplash.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +26,7 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
         override fun areContentsTheSame(
             oldItem: UnSplashResponseItem,
             newItem: UnSplashResponseItem
-        ): Boolean{
+        ): Boolean {
             return oldItem == newItem
         }
 
@@ -33,6 +34,9 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     }
 
     val differ = AsyncListDiffer(this, diffCallBack)
+//    var unsSplashResponseItem : List<UnSplashResponseItem>
+//        get() = differ.currentList
+//        set(value) {differ.submitList(value)}
 
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -46,9 +50,10 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val imageItem =differ.currentList[position]
+//        val imageItem =unsSplashResponseItem[position]
+        val imageItem = differ.currentList[position]
         holder.itemView.apply {
-            Glide.with(this).load(imageItem.urls.regular).into(ivItemThumbnail)
+            Glide.with(this).load(imageItem.urls.regular).into(iv_image)
         }
     }
 
