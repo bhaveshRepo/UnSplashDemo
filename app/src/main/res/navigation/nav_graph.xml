@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/favouritesFragment">
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.unsplash.ui.FavouritesFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_openFragment"
+            app:destination="@id/openFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.unsplash.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_openFragment"
+            app:destination="@id/openFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/randomFragment"
+        android:name="com.example.unsplash.ui.RandomFragment"
+        android:label="fragment_random"
+        tools:layout="@layout/fragment_random" >
+        <action
+            android:id="@+id/action_randomFragment2_to_openFragment"
+            app:destination="@id/openFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/openFragment"
+        android:name="com.example.unsplash.ui.OpenFragment"
+        android:label="fragment_open"
+        tools:layout="@layout/fragment_open" >
+        <argument
+            android:name="link"
+            app:argType="com.example.unsplash.model.Urls" />
+    </fragment>
+</navigation>

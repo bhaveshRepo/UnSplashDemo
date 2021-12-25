@@ -1,5 +1,7 @@
 package com.example.unsplash.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
 
-class ImageViewModel(val imageRepository: ImageRepository) : ViewModel() {
+class ImageViewModel(app: Application, val imageRepository: ImageRepository) : AndroidViewModel(app) {
 
     val ImageList : MutableLiveData<Resource<List<UnSplashResponseItem>>> = MutableLiveData()
     var pageNumber : Int = 1

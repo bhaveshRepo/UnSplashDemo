@@ -1,63 +1,73 @@
-package com.example.unsplash
+package com.example.unsplash.ui
 
-import android.media.Image
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.text.Layout
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.unsplash.R
 import com.example.unsplash.adapter.ImageAdapter
-import com.example.unsplash.model.UnSplashResponseItem
-import com.example.unsplash.repository.ImageRepository
 import com.example.unsplash.util.Constants
 import com.example.unsplash.util.Resource
 import com.example.unsplash.viewmodel.ImageViewModel
-import com.example.unsplash.viewmodel.ImageViewModelProvider
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_random.*
 
 
-class MainActivity : AppCompatActivity() {
+class RandomFragment : Fragment(R.layout.fragment_random) {
 
     lateinit var viewModel: ImageViewModel
     lateinit var imageAdapter: ImageAdapter
 
-    private val TAG: String = "MainActivity"
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val repository = ImageRepository()
-        val imageViewModelProvider = ImageViewModelProvider(repository)
-        viewModel =ViewModelProvider(this, imageViewModelProvider).get(ImageViewModel::class.java)
+        viewModel = (activity as HostActivity).activityViewModel
         setUpRecyclerView()
 
-        viewModel.ImageList.observe(this){
+        viewModel.ImageList.observe(viewLifecycleOwner, Observer{
             when(it){
                 is Resource.Success -> {
-                    paginationProgressBar.visibility = View.INVISIBLE
+                    hideProgressBar()
                     isLoading = false
                     it.data?.let {
-                        unResponse -> imageAdapter.differ.submitList(unResponse.toList())
+                        imageList -> imageAdapter.differ.submitList(imageList)
                     }
                 } is Resource.Error ->{
-                    paginationProgressBar.visibility = View.INVISIBLE
-                isLoading = false
+                    hideProgressBar()
+                    isLoading = false
                     it.message?.let {
-                        Toast.makeText(this,"Error : $it",Toast.LENGTH_LONG)
-                        Log.e(TAG, it)
+                        ErrorMessage -> Toast.makeText(context,"Error $ErrorMessage",Toast.LENGTH_LONG).show()
                     }
-                } is Resource.Loading ->{
-                    paginationProgressBar.visibility = View.VISIBLE
+                } is Resource.Loading -> {
                 isLoading = true
+                    showProgressBar()
                 }
             }
+        })
+
+
+    }
+
+    private fun hideProgressBar(){
+        paginationProgressBar.visibility = View.INVISIBLE
+    }
+    private fun showProgressBar(){
+        paginationProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun setUpRecyclerView() {
+        imageAdapter = ImageAdapter()
+        ivRecyclerView.apply {
+            adapter = imageAdapter
+            layoutManager = LinearLayoutManager(activity)
+            addOnScrollListener(this@RandomFragment.scrollListener)
         }
     }
 
@@ -94,12 +104,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpRecyclerView() {
-        imageAdapter = ImageAdapter()
-        ivRecyclerView.apply{
-            adapter = imageAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            addOnScrollListener(this@MainActivity.scrollListener)
-        }
-    }
+
 }
