@@ -31,7 +31,7 @@ class RandomFragment : Fragment(R.layout.fragment_random) {
         viewModel = (activity as HostActivity).activityViewModel
         setUpRecyclerView()
 
-        viewModel.ImageList.observe(viewLifecycleOwner, Observer{
+        viewModel.ImageList.observe(viewLifecycleOwner,Observer{
             when(it){
                 is Resource.Success -> {
                     hideProgressBar()
@@ -70,6 +70,8 @@ class RandomFragment : Fragment(R.layout.fragment_random) {
             addOnScrollListener(this@RandomFragment.scrollListener)
         }
     }
+
+    // logic for pagination
 
     var isLoading = false
     var isScrolling = false
