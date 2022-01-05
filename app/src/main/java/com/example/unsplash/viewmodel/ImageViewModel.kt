@@ -11,9 +11,10 @@ import android.provider.ContactsContract.CommonDataKinds.Email.TYPE_MOBILE
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.unsplash.model.UnSplashResponseItem
+import com.example.unsplash.model.randomresponse.UnSplashResponseItem
 import com.example.unsplash.repository.ImageRepository
 import com.example.unsplash.UnsplashApplication
+import com.example.unsplash.model.searchresponse.UnsplashSearchResponse
 import com.example.unsplash.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -21,9 +22,12 @@ import java.io.IOException
 
 class ImageViewModel(app: Application, val imageRepository: ImageRepository) : AndroidViewModel(app) {
 
+
+    // Response Logic for Random Photos ( List<UnSplashResponseItem> )
     val ImageList : MutableLiveData<Resource<List<UnSplashResponseItem>>> = MutableLiveData()
     var pageNumber : Int = 1
     var imageResponse : MutableList<UnSplashResponseItem>? = null
+
 
     init {
         getImageResponse()
@@ -71,6 +75,46 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
         }
         return Resource.Error(response.message())
     }
+
+    // Response Logic for Search Photos( UnsplashSearchResponse )
+
+    val SearchList : MutableLiveData<Resource<UnsplashSearchResponse>> = MutableLiveData()
+
+    fun getSearch(searchQuery: String){
+        viewModelScope.launch {
+            SafeCallingSearchResponse(searchQuery)
+        }
+    }
+
+    private suspend fun SafeCallingSearchResponse(searchQuery: String) {
+        SearchList.postValue(Resource.Loading())
+        try{
+            if(hasInternetConnection()){
+                val searchResponse = imageRepository.getSearch(searchQuery)
+                SearchList.postValue(handleSearchResponse(searchResponse))
+            }
+            else
+            {
+                SearchList.postValue(Resource.Error("No Internet Connection"))
+            }
+        } catch (t: Throwable){
+            when(t){
+                is IOException -> SearchList.postValue(Resource.Error(t.message.toString()))
+                else -> SearchList.postValue(Resource.Error(t.message.toString()))
+            }
+        }
+    }
+
+    private fun handleSearchResponse(
+        searchResponse : Response<UnsplashSearchResponse>) : Resource<UnsplashSearchResponse>{
+        if(searchResponse.isSuccessful){
+            searchResponse.body()?.let {
+                return Resource.Success(it)
+            }
+        }
+        return Resource.Error(searchResponse.message())
+    }
+
 
     private fun hasInternetConnection(): Boolean{
         val connectivityManager = getApplication<UnsplashApplication>().getSystemService(

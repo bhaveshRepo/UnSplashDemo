@@ -6,4 +6,6 @@ class ImageRepository {
 
     suspend fun getphotos(pageNumber: Int) = RetrofitInstance.api.getPhotos(pageNumber)
 
+    suspend fun getSearch(searchQuery: String) = RetrofitInstance.api.searchPhotos(searchQuery)
+
 }

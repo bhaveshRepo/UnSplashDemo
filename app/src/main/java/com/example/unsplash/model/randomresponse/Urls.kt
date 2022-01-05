@@ -1,4 +1,4 @@
-package com.example.unsplash.model
+package com.example.unsplash.model.randomresponse
 
 import java.io.Serializable
 

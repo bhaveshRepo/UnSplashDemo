@@ -3,14 +3,12 @@ package com.example.unsplash.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.unsplash.R
-import com.example.unsplash.model.UnSplashResponseItem
-import com.example.unsplash.model.Urls
+import com.example.unsplash.model.randomresponse.UnSplashResponseItem
 import kotlinx.android.synthetic.main.item_thumbnail.view.*
 
 class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
