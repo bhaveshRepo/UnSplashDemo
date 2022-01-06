@@ -1,8 +1,10 @@
 package com.example.unsplash.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +45,11 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         val searchItem = differ.currentList[position]
         holder.itemView.apply{
             Glide.with(this).load(searchItem.urls.regular).into(iv_image)
+            setOnClickListener {
+                onItemClickListenerSearch?.let {
+                    it(searchItem)
+                }
+            }
         }
 
     }
@@ -50,4 +57,11 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
+
+    private var onItemClickListenerSearch : ((Result) -> Unit)? = null
+
+    fun setOnItemClickListener(listener : (Result) -> Unit){
+        onItemClickListenerSearch  = listener
+    }
+
 }

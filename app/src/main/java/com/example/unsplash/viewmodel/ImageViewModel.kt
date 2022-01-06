@@ -67,7 +67,7 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
                     imageResponse = it
                 } else {
                     val oldArticles  = imageResponse
-                    val newArticles =it
+                    val newArticles = it
                     oldArticles?.addAll(newArticles)
                 }
                 return Resource.Success(imageResponse ?: it)
@@ -79,6 +79,8 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
     // Response Logic for Search Photos( UnsplashSearchResponse )
 
     val SearchList : MutableLiveData<Resource<UnsplashSearchResponse>> = MutableLiveData()
+    var searchPageNumber: Int = 1
+    var SearchResponse : UnsplashSearchResponse? = null
 
     fun getSearch(searchQuery: String){
         viewModelScope.launch {
@@ -90,7 +92,7 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
         SearchList.postValue(Resource.Loading())
         try{
             if(hasInternetConnection()){
-                val searchResponse = imageRepository.getSearch(searchQuery)
+                val searchResponse = imageRepository.getSearch(searchQuery, searchPageNumber)
                 SearchList.postValue(handleSearchResponse(searchResponse))
             }
             else
@@ -108,9 +110,18 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
     private fun handleSearchResponse(
         searchResponse : Response<UnsplashSearchResponse>) : Resource<UnsplashSearchResponse>{
         if(searchResponse.isSuccessful){
+            searchPageNumber++
             searchResponse.body()?.let {
-                return Resource.Success(it)
+                if(SearchResponse == null){
+                    SearchResponse = it
+                } else{
+                    val oldArticles = SearchResponse?.results
+                    val newArticles = it.results
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(SearchResponse ?: it)
             }
+
         }
         return Resource.Error(searchResponse.message())
     }
