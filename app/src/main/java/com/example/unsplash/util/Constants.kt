@@ -6,6 +6,5 @@ object Constants {
     const val secret_key : String = "MYminpEdVa6Arv4HDq4mYLjja283FYlM8VEKNjaqgpc"
     const val BASE_URL : String = "https://api.unsplash.com/"
     const val PAGE_SIZE : Int = 10
-    const val QUERY_PAGE_SIZE: Int = 10
 
 }

@@ -1,6 +1,5 @@
 package com.example.unsplash.model.searchresponse
 
-
 data class UrlsX(
     val full: String,
     val raw: String,

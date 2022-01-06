@@ -13,12 +13,13 @@ import com.example.unsplash.viewmodel.ImageViewModel
 import com.example.unsplash.viewmodel.ImageViewModelProvider
 import kotlinx.android.synthetic.main.activity_host.*
 
-class HostActivity : AppCompatActivity(R.layout.activity_host) {
+class HostActivity : AppCompatActivity() {
 
     lateinit var activityViewModel : ImageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_host)
 
         val repository = ImageRepository()
         val viewModelProvider = ImageViewModelProvider(application, repository)

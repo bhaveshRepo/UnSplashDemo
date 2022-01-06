@@ -37,7 +37,7 @@ class RandomFragment : Fragment(R.layout.fragment_random) {
                     hideProgressBar()
                     isLoading = false
                     it.data?.let {
-                        imageList -> imageAdapter.differ.submitList(imageList)
+                        imageList -> imageAdapter.differ.submitList(imageList.toList())
                     }
                 } is Resource.Error ->{
                     hideProgressBar()

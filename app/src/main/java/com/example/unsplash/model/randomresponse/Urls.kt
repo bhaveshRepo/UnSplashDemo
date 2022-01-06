@@ -1,5 +1,6 @@
 package com.example.unsplash.model.randomresponse
 
+import java.io.Serializable
 
 
 data class Urls(
@@ -8,4 +9,4 @@ data class Urls(
     val regular: String?,
     val small: String?,
     val thumb: String?
-)
+) : Serializable

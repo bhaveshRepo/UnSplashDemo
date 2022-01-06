@@ -67,7 +67,7 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
                     imageResponse = it
                 } else {
                     val oldArticles  = imageResponse
-                    val newArticles = it
+                    val newArticles =it
                     oldArticles?.addAll(newArticles)
                 }
                 return Resource.Success(imageResponse ?: it)
@@ -80,7 +80,8 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
 
     val SearchList : MutableLiveData<Resource<UnsplashSearchResponse>> = MutableLiveData()
     var searchPageNumber: Int = 1
-    var SearchResponse : UnsplashSearchResponse? = null
+    var searchImageResponse : UnsplashSearchResponse? = null
+
 
     fun getSearch(searchQuery: String){
         viewModelScope.launch {
@@ -108,20 +109,20 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
     }
 
     private fun handleSearchResponse(
-        searchResponse : Response<UnsplashSearchResponse>) : Resource<UnsplashSearchResponse>{
+        searchResponse : Response<UnsplashSearchResponse>) :
+            Resource<UnsplashSearchResponse>{
         if(searchResponse.isSuccessful){
             searchPageNumber++
             searchResponse.body()?.let {
-                if(SearchResponse == null){
-                    SearchResponse = it
+                if(searchImageResponse == null){
+                    searchImageResponse = it
                 } else{
-                    val oldArticles = SearchResponse?.results
-                    val newArticles = it.results
-                    oldArticles?.addAll(newArticles)
+                    val oldResult = searchImageResponse?.results
+                    val newResults = it.results
+                    oldResult?.addAll(newResults)
                 }
-                return Resource.Success(SearchResponse ?: it)
+                return Resource.Success(searchImageResponse ?: it)
             }
-
         }
         return Resource.Error(searchResponse.message())
     }
