@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.example.unsplash.util.Resource
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.unsplash.HostActivity
 import com.example.unsplash.R
 import com.example.unsplash.adapter.SearchAdapter
 import com.example.unsplash.util.Constants
@@ -30,7 +31,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as HostActivity).activityViewModel
+        viewModel = (activity as HostActivity).hostViewModel
         setUpRecyclerView()
 
         var job : Job? = null

@@ -1,7 +1,6 @@
 package com.example.unsplash.ui
 
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.unsplash.HostActivity
 import com.example.unsplash.R
 import com.example.unsplash.adapter.ImageAdapter
 import com.example.unsplash.util.Constants
@@ -24,11 +24,12 @@ class RandomFragment : Fragment(R.layout.fragment_random) {
     lateinit var viewModel: ImageViewModel
     lateinit var imageAdapter: ImageAdapter
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = (activity as HostActivity).hostViewModel
 
-        viewModel = (activity as HostActivity).activityViewModel
         setUpRecyclerView()
 
         viewModel.ImageList.observe(viewLifecycleOwner,Observer{

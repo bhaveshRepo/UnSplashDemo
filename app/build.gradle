@@ -24,6 +24,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -71,5 +72,8 @@ dependencies {
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:2.2.1"
     implementation "androidx.navigation:navigation-ui-ktx:2.2.1"
+
+    // Bottom navigation
+    implementation 'com.etebarian:meow-bottom-navigation:1.0.0'
 
 }

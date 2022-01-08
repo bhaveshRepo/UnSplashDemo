@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    android:background="#00FFFFFF"
+    tools:context=".HostActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ivRecyclerView"
+        android:background="#00FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
