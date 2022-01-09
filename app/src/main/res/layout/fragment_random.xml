@@ -15,7 +15,6 @@
         android:layout_height="match_parent" />
 
 
-
     <ProgressBar
         android:id="@+id/paginationProgressBar"
         style="?attr/progressBarStyle"

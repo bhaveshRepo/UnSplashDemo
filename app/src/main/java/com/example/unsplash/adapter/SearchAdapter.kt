@@ -3,12 +3,18 @@ package com.example.unsplash.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebViewClient
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.unsplash.R
 import com.example.unsplash.model.searchresponse.Result
+import com.example.unsplash.model.searchresponse.UrlsX
+import kotlinx.android.synthetic.main.fragment_open.view.*
+import kotlinx.android.synthetic.main.fragment_random.view.*
+import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.item_thumbnail.view.*
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
@@ -43,11 +49,24 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         val searchItem = differ.currentList[position]
         holder.itemView.apply{
             Glide.with(this).load(searchItem.urls.regular).into(iv_image)
+            setOnClickListener {
+                    onSearchItemClickListener?.let {
+                        it(searchItem.urls)
+                    }
+                }
+            }
         }
 
-    }
+
 
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
+
+    private var onSearchItemClickListener : ((UrlsX) -> Unit)? = null
+
+    fun setOnItemClickListener(listener : (UrlsX) -> Unit){
+        onSearchItemClickListener = listener
+    }
+
 }

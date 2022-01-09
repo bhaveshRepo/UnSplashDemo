@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.unsplash.util.Resource
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         viewModel = (activity as HostActivity).hostViewModel
         setUpRecyclerView()
 
+        searchAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("webLink",it)
+            }
+            findNavController().navigate(R.id.action_searchFragment_to_openFragment,bundle)
+        }
+
         var job : Job? = null
         etSearch.addTextChangedListener{ editable ->
             job?.cancel()
@@ -47,7 +55,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
             }
         }
-
 
         viewModel.SearchList.observe(viewLifecycleOwner, Observer {
             searchResponse -> when(searchResponse){

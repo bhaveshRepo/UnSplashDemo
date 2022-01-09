@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unsplash.HostActivity
 import com.example.unsplash.R
 import com.example.unsplash.adapter.ImageAdapter
+import com.example.unsplash.model.randomresponse.Urls
 import com.example.unsplash.util.Constants
 import com.example.unsplash.util.Resource
 import com.example.unsplash.viewmodel.ImageViewModel
@@ -29,8 +32,15 @@ class RandomFragment : Fragment(R.layout.fragment_random) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as HostActivity).hostViewModel
-
         setUpRecyclerView()
+
+//        imageAdapter.setOnItemClickListener {
+//            val bundle = Bundle().apply {
+//                putString("url", it.regular)
+//            }
+//            findNavController().navigate(R.id.action_randomFragment_to_openFragment,bundle)
+//        }
+
 
         viewModel.ImageList.observe(viewLifecycleOwner,Observer{
             when(it){

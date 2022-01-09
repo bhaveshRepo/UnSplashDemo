@@ -28,12 +28,16 @@
         android:label="RandomFragment"
         tools:layout="@layout/fragment_random" >
         <action
-            android:id="@+id/action_randomFragment2_to_openFragment"
+            android:id="@+id/action_randomFragment_to_openFragment"
             app:destination="@id/openFragment" />
     </fragment>
     <fragment
         android:id="@+id/openFragment"
         android:name="com.example.unsplash.ui.OpenFragment"
         android:label="OpenFragment"
-        tools:layout="@layout/fragment_open" />
+        tools:layout="@layout/fragment_open" >
+        <argument
+            android:name="webLink"
+            app:argType="com.example.unsplash.model.searchresponse.UrlsX" />
+    </fragment>
 </navigation>
