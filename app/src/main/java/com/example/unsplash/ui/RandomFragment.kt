@@ -34,12 +34,12 @@ class RandomFragment : Fragment(R.layout.fragment_random) {
         viewModel = (activity as HostActivity).hostViewModel
         setUpRecyclerView()
 
-//        imageAdapter.setOnItemClickListener {
-//            val bundle = Bundle().apply {
-//                putString("url", it.regular)
-//            }
-//            findNavController().navigate(R.id.action_randomFragment_to_openFragment,bundle)
-//        }
+        imageAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("randomLink",it)
+            }
+            findNavController().navigate(R.id.action_randomFragment_to_openFragment,bundle)
+        }
 
 
         viewModel.ImageList.observe(viewLifecycleOwner,Observer{

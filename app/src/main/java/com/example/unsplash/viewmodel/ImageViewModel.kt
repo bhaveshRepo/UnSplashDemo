@@ -14,6 +14,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.unsplash.model.randomresponse.UnSplashResponseItem
 import com.example.unsplash.repository.ImageRepository
 import com.example.unsplash.UnsplashApplication
+import com.example.unsplash.model.searchresponse.Result
 import com.example.unsplash.model.searchresponse.UnsplashSearchResponse
 import com.example.unsplash.util.Resource
 import kotlinx.coroutines.launch
@@ -67,7 +68,7 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
                     imageResponse = it
                 } else {
                     val oldArticles  = imageResponse
-                    val newArticles =it
+                    val newArticles = it
                     oldArticles?.addAll(newArticles)
                 }
                 return Resource.Success(imageResponse ?: it)
@@ -75,6 +76,8 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
         }
         return Resource.Error(response.message())
     }
+
+
 
     // Response Logic for Search Photos( UnsplashSearchResponse )
 
@@ -112,8 +115,9 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
         searchResponse : Response<UnsplashSearchResponse>) :
             Resource<UnsplashSearchResponse>{
         if(searchResponse.isSuccessful){
-            searchPageNumber++
+
             searchResponse.body()?.let {
+                searchPageNumber++
                 if(searchImageResponse == null){
                     searchImageResponse = it
                 } else{
@@ -126,6 +130,16 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
         }
         return Resource.Error(searchResponse.message())
     }
+
+//    fun saveResult(result: Result) = viewModelScope.launch {
+//            imageRepository.upsert(result)
+//    }
+//
+//    fun getSavedImage() = imageRepository.saveData()
+//
+//    fun deleteResult(result: Result) = viewModelScope.launch {
+//        imageRepository.deleteResult(result)
+//    }
 
 
     private fun hasInternetConnection(): Boolean{

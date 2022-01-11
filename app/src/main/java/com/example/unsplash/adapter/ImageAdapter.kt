@@ -58,14 +58,24 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
         holder.itemView.apply {
             Glide.with(this).load(imageItem.urls.regular).into(iv_image)
             setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(imageItem.urls.full))
-                context.startActivity(intent)
+                onRandomItemClickListener?.let {
+                    it(imageItem)
+                }
+
+//                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(imageItem.urls.full))
+//                context.startActivity(intent)
             }
         }
     }
 
     override fun getItemCount(): Int {
         return differ.currentList.size
+    }
+
+    private var onRandomItemClickListener : ((UnSplashResponseItem) -> Unit)? = null
+
+    fun setOnItemClickListener(listener :(UnSplashResponseItem) -> Unit){
+        onRandomItemClickListener = listener
     }
 
 

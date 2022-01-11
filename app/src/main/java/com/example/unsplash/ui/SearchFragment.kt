@@ -37,7 +37,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         searchAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("webLink",it)
+                putSerializable("searchLink",it)
             }
             findNavController().navigate(R.id.action_searchFragment_to_openFragment,bundle)
         }

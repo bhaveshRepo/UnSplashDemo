@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController // for version < androidx.appcompat:appcompat:1.3.1
 import androidx.navigation.ui.setupWithNavController
+import com.example.unsplash.db.DatabaseInstance
 import com.example.unsplash.repository.ImageRepository
 import com.example.unsplash.viewmodel.ImageViewModel
 import com.example.unsplash.viewmodel.ImageViewModelProvider

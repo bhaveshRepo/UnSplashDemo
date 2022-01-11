@@ -37,7 +37,14 @@
         android:label="OpenFragment"
         tools:layout="@layout/fragment_open" >
         <argument
-            android:name="webLink"
-            app:argType="com.example.unsplash.model.searchresponse.UrlsX" />
+            android:name="randomLink"
+            app:argType="com.example.unsplash.model.randomresponse.UnSplashResponseItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="searchLink"
+            app:argType="com.example.unsplash.model.searchresponse.Result"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

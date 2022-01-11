@@ -1,5 +1,6 @@
 package com.example.unsplash.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +17,10 @@ import kotlinx.android.synthetic.main.fragment_open.view.*
 import kotlinx.android.synthetic.main.fragment_random.view.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.item_thumbnail.view.*
+import java.util.ArrayList
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+
 
     private val searchDifferCallBack = object : DiffUtil.ItemCallback<Result>(){
         override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
@@ -44,14 +47,17 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         return SearchViewHolder(layoutInflater)
     }
 
+
+
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
 
         val searchItem = differ.currentList[position]
         holder.itemView.apply{
             Glide.with(this).load(searchItem.urls.regular).into(iv_image)
+
             setOnClickListener {
                     onSearchItemClickListener?.let {
-                        it(searchItem.urls)
+                        it(searchItem)
                     }
                 }
             }
@@ -63,10 +69,17 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         return differ.currentList.size
     }
 
-    private var onSearchItemClickListener : ((UrlsX) -> Unit)? = null
+    private var onSearchItemClickListener : ((Result) -> Unit)? = null
 
-    fun setOnItemClickListener(listener : (UrlsX) -> Unit){
+    fun setOnItemClickListener(listener : (Result) -> Unit){
         onSearchItemClickListener = listener
     }
+
+
+//    private var onSearchItemClickListener : ((UrlsX) -> Unit)? = null
+//
+//    fun setOnItemClickListener(listener : (UrlsX) -> Unit){
+//        onSearchItemClickListener = listener
+//    }
 
 }

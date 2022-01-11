@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebViewClient
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.unsplash.HostActivity
 import com.example.unsplash.R
 import com.example.unsplash.viewmodel.ImageViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_open.*
 
 
@@ -27,18 +29,33 @@ class OpenFragment : Fragment(R.layout.fragment_open) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as HostActivity).hostViewModel
-        val webUrl = args.webLink
-
-//        webView.apply { // to open articular link in a webView
-//          webViewClient = WebViewClient()
-//            loadUrl(webUrl.regular)
-//        }
 
 
-//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webUrl.regular))
-//        startActivity(intent)
+        // recieving data without safeArgs
+//        val searchUrl = arguments?.getString("searchLink")
+//        val downloadUrl = arguments?.getString("downloadLink")
 
-        Glide.with(this).load(webUrl.full).into(webView)
+        //recieving data with the help of SafeArgs
+
+        val searchUrl = args.searchLink
+        val randomUrl = args.randomLink
+
+        if (searchUrl != null) {
+            Glide.with(this).load(searchUrl.urls.regular).into(webView)
+            fab.setOnClickListener {
+                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
+                    searchUrl.links.download.toUri())
+            }
+        }
+        if(randomUrl != null){
+            Glide.with(this).load(randomUrl.urls.regular).into(webView)
+            fab.setOnClickListener {
+                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
+                    randomUrl.links.download.toUri())
+            }
+        }
+
+
 
 
 
