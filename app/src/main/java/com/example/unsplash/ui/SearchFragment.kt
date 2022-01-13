@@ -52,6 +52,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     if(editable.toString().isNotEmpty()){
                         viewModel.getSearch(editable.toString())
                     }
+
             }
             }
         }
