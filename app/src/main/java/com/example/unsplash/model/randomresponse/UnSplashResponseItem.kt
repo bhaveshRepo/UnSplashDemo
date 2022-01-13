@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class UnSplashResponseItem (
 
-    val id: String?,
+    val id: String,
     val updated_at: String?,
     val urls: Urls,
     val links: Links,

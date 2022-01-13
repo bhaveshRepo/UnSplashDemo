@@ -2,9 +2,10 @@ package com.example.unsplash.repository
 
 import com.example.unsplash.api.RetrofitInstance
 import com.example.unsplash.db.DatabaseInstance
+import com.example.unsplash.model.ResultData
 import com.example.unsplash.model.searchresponse.Result
 
-class ImageRepository() {
+class ImageRepository(val db: DatabaseInstance) {
 
     suspend fun getphotos(pageNumber: Int) = RetrofitInstance.api.getPhotos(pageNumber)
 
@@ -12,12 +13,12 @@ class ImageRepository() {
 
     //  Database part
 
-//    suspend fun upsert(result: Result) =
-//        db.favoriteDao().upsert(result)
-//
-//    fun saveData() = db.favoriteDao().getAllData()
-//
-//    suspend fun deleteResult(result: Result) =
-//        db.favoriteDao().deleteResult(result)
+    suspend fun upsert(id:String, link: String, url:String) =
+        db.favoriteDao().upsert(ResultData(id,link,url))
+
+    fun saveData() = db.favoriteDao().getAllData()
+
+    suspend fun deleteResult(id:String, link: String, url:String) =
+        db.favoriteDao().deleteResult(ResultData(id,link,url))
 
 }

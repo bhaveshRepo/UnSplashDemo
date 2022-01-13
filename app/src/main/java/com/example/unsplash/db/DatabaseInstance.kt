@@ -2,13 +2,14 @@ package com.example.unsplash.db
 
 import android.content.Context
 import androidx.room.*
+import com.example.unsplash.model.ResultData
 import com.example.unsplash.model.searchresponse.Result
 
 @Database(
-    entities = [Result::class],
-    version = 1
+    entities = [ResultData::class],
+    version = 2
 )
-@TypeConverters(Converter::class)
+//@TypeConverters(Converter::class)
 abstract class DatabaseInstance : RoomDatabase(){
 
     abstract fun favoriteDao(): FavoriteDao
@@ -26,7 +27,7 @@ abstract class DatabaseInstance : RoomDatabase(){
         private fun createDatabase(context: Context) =
              Room.databaseBuilder(context.applicationContext,
                 DatabaseInstance::class.java,
-                "result_db.db").build()
+                "resultData_db.db").build()
 
     }
 }

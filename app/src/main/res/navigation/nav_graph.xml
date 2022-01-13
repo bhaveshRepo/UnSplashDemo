@@ -4,15 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/randomFragment">
-    <fragment
-        android:id="@+id/favouritesFragment"
-        android:name="com.example.unsplash.ui.FavouritesFragment"
-        android:label="FavouritesFragment"
-        tools:layout="@layout/fragment_favourites" >
-        <action
-            android:id="@+id/action_favouritesFragment_to_openFragment"
-            app:destination="@id/openFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.unsplash.ui.SearchFragment"
@@ -46,5 +38,19 @@
             app:argType="com.example.unsplash.model.searchresponse.Result"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="favoriteLink"
+            app:argType="com.example.unsplash.model.ResultData"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.unsplash.ui.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_openFragment"
+            app:destination="@id/openFragment" />
     </fragment>
 </navigation>

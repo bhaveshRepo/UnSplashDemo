@@ -39,19 +39,43 @@ class OpenFragment : Fragment(R.layout.fragment_open) {
 
         val searchUrl = args.searchLink
         val randomUrl = args.randomLink
+        val favoriteUrl = args.favoriteLink
 
         if (searchUrl != null) {
             Glide.with(this).load(searchUrl.urls.regular).into(webView)
             fab.setOnClickListener {
-                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
-                    searchUrl.links.download.toUri())
+//                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
+//                    searchUrl.links.download.toUri())
+            viewModel.saveResult(searchUrl.id,searchUrl.links.download,searchUrl.urls.regular.toString())
+                Snackbar.make(view,"Image Saved",Snackbar.LENGTH_SHORT).apply {
+                    setAction("Undo"){
+                        viewModel.deleteResult(searchUrl.id,searchUrl.links.download,searchUrl.urls.regular.toString())
+                        Snackbar.make(view,"Deleted",Snackbar.LENGTH_SHORT).show()
+                    }
+                    show()
+                }
+
             }
         }
         if(randomUrl != null){
             Glide.with(this).load(randomUrl.urls.regular).into(webView)
             fab.setOnClickListener {
-                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
-                    randomUrl.links.download.toUri())
+//                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
+//                    randomUrl.links.download.toUri())
+                viewModel.saveResult(randomUrl.id,randomUrl.links.download,randomUrl.urls.regular)
+                Snackbar.make(view,"Image Saved",Snackbar.LENGTH_SHORT).apply {
+                    setAction("Undo"){
+                        viewModel.deleteResult(randomUrl.id,randomUrl.links.download,randomUrl.urls.regular.toString())
+                        Snackbar.make(view,"Deleted",Snackbar.LENGTH_SHORT).show()
+                    }
+                    show()
+                }
+            }
+        }
+        if(favoriteUrl != null){
+            Glide.with(this).load(favoriteUrl.imageLink).into(webView)
+            fab.setOnClickListener {
+                Snackbar.make(view,"Already in Favorites",Snackbar.LENGTH_SHORT).show()
             }
         }
 

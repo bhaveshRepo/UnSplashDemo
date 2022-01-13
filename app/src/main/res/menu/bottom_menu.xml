@@ -5,11 +5,11 @@
     android:title="Random"
     />
 
-<!--    <item-->
-<!--        android:id="@+id/favouritesFragment"-->
-<!--        android:icon="@drawable/ic_favorite"-->
-<!--        android:title="Favourites"-->
-<!--        />-->
+    <item
+        android:id="@+id/favoriteFragment"
+        android:icon="@drawable/ic_favorite"
+        android:title="Favourites"
+        />
     <item
 
         android:id="@+id/searchFragment"

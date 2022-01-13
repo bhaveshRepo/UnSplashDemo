@@ -19,7 +19,7 @@ class HostActivity : AppCompatActivity(R.layout.activity_host) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val repository = ImageRepository()
+        val repository = ImageRepository(DatabaseInstance(this))
         val viewModelProvider = ImageViewModelProvider(application, repository)
         hostViewModel = ViewModelProvider(this, viewModelProvider).get(ImageViewModel::class.java)
 //        bottomNavigationView.setupWithNavController(imageNavHostFragment.findNavController())

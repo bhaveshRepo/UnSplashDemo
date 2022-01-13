@@ -2,19 +2,20 @@ package com.example.unsplash.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.unsplash.model.ResultData
 import com.example.unsplash.model.searchresponse.Result
 
 @Dao
 interface FavoriteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(result: Result): Long
+    suspend fun upsert(resultData: ResultData): Long
 
 
-    @Query("SELECT * from favorites")
-    fun getAllData() : LiveData<List<Result>>
+    @Query("SELECT * from resultData")
+    fun getAllData() : LiveData<List<ResultData>>
 
     @Delete
-    suspend fun deleteResult(result: Result)
+    suspend fun deleteResult(resultData: ResultData)
 
 }
