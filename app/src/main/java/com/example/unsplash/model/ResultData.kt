@@ -9,8 +9,8 @@ import java.io.Serializable
 )
 data class ResultData(
 
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null,
     val downloadLink: String,
     val imageLink: String,
 

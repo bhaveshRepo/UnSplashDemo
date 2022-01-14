@@ -13,12 +13,12 @@ class ImageRepository(val db: DatabaseInstance) {
 
     //  Database part
 
-    suspend fun upsert(id:String, link: String, url:String) =
+    suspend fun upsert(id:Int?, link: String, url:String) =
         db.favoriteDao().upsert(ResultData(id,link,url))
 
     fun saveData() = db.favoriteDao().getAllData()
 
-    suspend fun deleteResult(id:String, link: String, url:String) =
+    suspend fun deleteResult(id:Int?, link: String, url:String) =
         db.favoriteDao().deleteResult(ResultData(id,link,url))
 
 }

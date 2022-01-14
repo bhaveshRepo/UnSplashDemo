@@ -7,7 +7,7 @@ import com.example.unsplash.model.searchresponse.Result
 
 @Database(
     entities = [ResultData::class],
-    version = 2
+    version = 3
 )
 //@TypeConverters(Converter::class)
 abstract class DatabaseInstance : RoomDatabase(){
@@ -27,7 +27,7 @@ abstract class DatabaseInstance : RoomDatabase(){
         private fun createDatabase(context: Context) =
              Room.databaseBuilder(context.applicationContext,
                 DatabaseInstance::class.java,
-                "resultData_db.db").build()
+                "resultData1_db.db").build()
 
     }
 }

@@ -1,10 +1,7 @@
 package com.example.unsplash.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebViewClient
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -43,13 +40,15 @@ class OpenFragment : Fragment(R.layout.fragment_open) {
 
         if (searchUrl != null) {
             Glide.with(this).load(searchUrl.urls.regular).into(webView)
+            download.setOnClickListener {
+                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
+                    searchUrl.links.download.toUri())
+            }
             fab.setOnClickListener {
-//                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
-//                    searchUrl.links.download.toUri())
-            viewModel.saveResult(searchUrl.id,searchUrl.links.download,searchUrl.urls.regular.toString())
+            viewModel.saveResult(null,searchUrl.links.download,searchUrl.urls.regular.toString())
                 Snackbar.make(view,"Image Saved",Snackbar.LENGTH_SHORT).apply {
                     setAction("Undo"){
-                        viewModel.deleteResult(searchUrl.id,searchUrl.links.download,searchUrl.urls.regular.toString())
+                        viewModel.deleteResult(null,searchUrl.links.download,searchUrl.urls.regular.toString())
                         Snackbar.make(view,"Deleted",Snackbar.LENGTH_SHORT).show()
                     }
                     show()
@@ -59,13 +58,16 @@ class OpenFragment : Fragment(R.layout.fragment_open) {
         }
         if(randomUrl != null){
             Glide.with(this).load(randomUrl.urls.regular).into(webView)
+            download.setOnClickListener {
+                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
+                    randomUrl.links.download.toUri())
+            }
             fab.setOnClickListener {
-//                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
-//                    randomUrl.links.download.toUri())
-                viewModel.saveResult(randomUrl.id,randomUrl.links.download,randomUrl.urls.regular)
+
+                viewModel.saveResult(null,randomUrl.links.download,randomUrl.urls.regular)
                 Snackbar.make(view,"Image Saved",Snackbar.LENGTH_SHORT).apply {
                     setAction("Undo"){
-                        viewModel.deleteResult(randomUrl.id,randomUrl.links.download,randomUrl.urls.regular.toString())
+                        viewModel.deleteResult(null,randomUrl.links.download,randomUrl.urls.regular.toString())
                         Snackbar.make(view,"Deleted",Snackbar.LENGTH_SHORT).show()
                     }
                     show()
@@ -74,6 +76,10 @@ class OpenFragment : Fragment(R.layout.fragment_open) {
         }
         if(favoriteUrl != null){
             Glide.with(this).load(favoriteUrl.imageLink).into(webView)
+            download.setOnClickListener {
+                CustomTabsIntent.Builder().build().launchUrl(requireContext(),
+                    favoriteUrl.downloadLink.toUri())
+            }
             fab.setOnClickListener {
                 Snackbar.make(view,"Already in Favorites",Snackbar.LENGTH_SHORT).show()
             }

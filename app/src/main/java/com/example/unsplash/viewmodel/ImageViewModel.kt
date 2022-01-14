@@ -14,8 +14,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.unsplash.model.randomresponse.UnSplashResponseItem
 import com.example.unsplash.repository.ImageRepository
 import com.example.unsplash.UnsplashApplication
-import com.example.unsplash.model.ResultData
-import com.example.unsplash.model.searchresponse.Result
 import com.example.unsplash.model.searchresponse.UnsplashSearchResponse
 import com.example.unsplash.util.Resource
 import kotlinx.coroutines.launch
@@ -132,13 +130,13 @@ class ImageViewModel(app: Application, val imageRepository: ImageRepository) : A
         return Resource.Error(searchResponse.message())
     }
 
-    fun saveResult(id:String, link: String, url:String) = viewModelScope.launch {
+    fun saveResult(id: Int?, link: String, url:String) = viewModelScope.launch {
             imageRepository.upsert(id,link,url)
     }
 
     fun getSavedImage() = imageRepository.saveData()
 
-    fun deleteResult(id: String, link: String, url: String) = viewModelScope.launch {
+    fun deleteResult(id: Int?, link: String, url: String) = viewModelScope.launch {
         imageRepository.deleteResult(id, link, url)
     }
 

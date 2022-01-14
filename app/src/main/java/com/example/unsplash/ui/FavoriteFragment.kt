@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.unsplash.HostActivity
 import com.example.unsplash.R
 import com.example.unsplash.adapter.FavoriteAdapter
@@ -40,33 +42,40 @@ lateinit var favoriteAdapter: FavoriteAdapter
         setUpFavoriteRecyclerView()
 
         favoriteAdapter.setFavoriteItemClickListener {
-                resultresponse ->
-            Snackbar.make(view,"Choose",Snackbar.LENGTH_LONG).apply {
-//                setAction("open"){
-//                    val bundle = Bundle().apply {
-//                        putSerializable("favoriteLink",resultresponse)
-//                    }
-//                    findNavController().navigate(R.id.action_favoriteFragment_to_openFragment,bundle)
-//                }
-//                show()
-                setAction("delete"){
-                    viewModel.deleteResult(resultresponse.id,resultresponse.downloadLink,resultresponse.imageLink)
-                    Snackbar.make(view,"Bring back",Snackbar.LENGTH_SHORT).apply {
-                        setAction("Undo"){
-                            viewModel.saveResult(resultresponse.id,
-                                resultresponse.downloadLink,
-                                resultresponse.imageLink)
-                        }
-                        show()
-                    }
-                }
-                show()
+            val bundle = Bundle().apply {
+                putSerializable("favoriteLink",it)
             }
-
-
+            findNavController().navigate(R.id.action_favoriteFragment_to_openFragment,bundle)
         }
 
+        val touchItemCallBack = object:ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
 
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition // get the position of current Element
+                val result = favoriteAdapter.differ.currentList[position]
+                viewModel.deleteResult(result.id,result.downloadLink,result.imageLink)
+                Snackbar.make(view,"Successfully deleted",Snackbar.LENGTH_SHORT).apply {
+                    setAction("undo"){
+                        viewModel.saveResult(result.id,result.downloadLink,result.imageLink)
+                    }
+                    show()
+                }
+            }
+
+        }
+        ItemTouchHelper(touchItemCallBack).apply {
+            attachToRecyclerView(rvFavorite)
+        }
 
         viewModel.getSavedImage().observe(viewLifecycleOwner, Observer {
             favoriteAdapter.differ.submitList(it)
